@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
   def show
+    redirect_to login_path if !logged_in?
   end
 
   def new
