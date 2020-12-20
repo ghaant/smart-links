@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_201957) do
     t.integer "smartlink_id", null: false
     t.integer "language_id", null: false
     t.string "url", limit: 255, null: false
+    t.boolean "default", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["smartlink_id", "language_id"], name: "ux_redirections", unique: true
