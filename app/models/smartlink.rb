@@ -7,6 +7,7 @@ class Smartlink < ApplicationRecord
                    uniqueness: true
 
   has_many :redirections, dependent: :destroy
+  belongs_to :user
 
   private
 

@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  has_many :smartlinks, dependent: :destroy
+
   private
 
   def downcase_email

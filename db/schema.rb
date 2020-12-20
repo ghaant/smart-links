@@ -36,9 +36,11 @@ ActiveRecord::Schema.define(version: 2020_12_15_201957) do
 
   create_table "smartlinks", force: :cascade do |t|
     t.string "slug", limit: 50, null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["slug"], name: "ux_smartlinks_slug", unique: true
+    t.index ["user_id"], name: "ix_smartlinks_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,4 +54,5 @@ ActiveRecord::Schema.define(version: 2020_12_15_201957) do
 
   add_foreign_key "redirections", "languages", name: "fk_redirections_language_id"
   add_foreign_key "redirections", "smartlinks", name: "fk_redirections_smartlink_id"
+  add_foreign_key "smartlinks", "users", name: "fk_smartlinks_user_id"
 end
