@@ -4,7 +4,6 @@ class CreateRedirections < ActiveRecord::Migration[6.0]
       t.integer :smartlink_id, null: false
       t.integer :language_id, null: false
       t.string :url, limit: 255, null: false
-      t.boolean :default, null: false, default: false
       t.timestamps
     end
 
