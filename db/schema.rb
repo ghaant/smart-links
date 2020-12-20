@@ -17,12 +17,10 @@ ActiveRecord::Schema.define(version: 2020_12_15_201957) do
 
   create_table "languages", force: :cascade do |t|
     t.string "code", limit: 2, null: false
-    t.string "name", limit: 50, null: false
     t.boolean "default", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code"], name: "ux_languages_code", unique: true
-    t.index ["name"], name: "ux_languages_name", unique: true
   end
 
   create_table "redirections", force: :cascade do |t|
