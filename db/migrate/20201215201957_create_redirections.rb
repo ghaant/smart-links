@@ -3,6 +3,7 @@ class CreateRedirections < ActiveRecord::Migration[6.0]
     create_table :redirections do |t|
       t.integer :smartlink_id, null: false
       t.integer :language_id, null: false
+      t.string :url, limit: 255, null: false
       t.timestamps
     end
 
