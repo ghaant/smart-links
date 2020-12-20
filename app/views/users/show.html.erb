@@ -1,4 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <%= @user.name %>, <%= @user.email %>
+<br>
+<%= link_to 'Smartlinks', smartlinks_path %>
+<br>
 <%= link_to "Log out", logout_path, method: :delete %>
