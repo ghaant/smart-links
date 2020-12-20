@@ -14,9 +14,40 @@ class SmartlinksController < ApplicationController
     end
   end
 
+  def index
+    current_user.smartlinks
+  end
+
+  def new
+    @smartlink = Smartlink.new
+  end
+
+  def create
+    @smartlink = Smartlink.new(smartlink_params)
+
+    respond_to do |format|
+      if @smartlink.save
+        format.html { redirect_to smartlinks_path, notice: 'Smartlink was successfully created.' }
+        format.json { render :index, status: :created, location: @smartlink }
+      else
+        format.html { render :new }
+        format.json { render json: @smartlink.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    Smartlink.find(params[:id]).destroy
+    redirect_to smartlinks_path, notice: 'Smartlink deleted'
+  end
+
   private
 
   def valid_slug
     redirect_to home_path, alert: 'Invalid slug' unless params[:slug].match(VALID_SLUG)
+  end
+
+  def smartlink_params
+    params.require(:smartlink).permit(:slug, :language, :url)
   end
 end

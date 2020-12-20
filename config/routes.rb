@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   get '/login',       to: 'sessions#new'
   post '/login',      to: 'sessions#create'
   delete '/logout',   to: 'sessions#destroy'
-  get '/links/*slug', to: 'smartlinks#redirect', as: 'redirect'
+  resources :smartlinks, except: [:show, :edit, :update]
+  get '/smartlinks/*slug', to: 'smartlinks#redirect', as: 'redirect'
 end
