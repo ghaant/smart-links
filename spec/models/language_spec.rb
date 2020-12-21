@@ -13,7 +13,7 @@ RSpec.describe Language, type: :model do
       end
     end
 
-    context 'An ivalid language code' do
+    context 'An invalid language code' do
       it do
         expect(Language.new(invalid_params).valid?).to be false
       end
