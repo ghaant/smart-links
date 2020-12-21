@@ -1,10 +1,16 @@
-<table>
-  <thead>
-    <th>Slug</th>
-    <th>Language ISO code</th>
-    <th>URL</th>
-  </thead>
-  <tbody>
-    <%= render @smartlinks %>
-  </tbody>
-</table>
+<% if logged_in? && current_user.smartlinks.count.zero? %>
+  <p>You have not created any smartlinks yet</p>
+<% elsif @smartlinks.count.zero? %>
+  <p>There are no smartlinks. To create one please log in.</p>
+<% else %>
+  <table>
+    <thead>
+      <th>Slug</th>
+      <th>Language ISO code</th>
+      <th>URL</th>
+    </thead>
+    <tbody>
+      <%= render @smartlinks %>
+    </tbody>
+  </table>
+<% end %>
