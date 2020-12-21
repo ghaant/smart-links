@@ -10,14 +10,16 @@ class SmartlinksController < ApplicationController
       elsif (default_url = redirections.find_by("languages.default = 'true'")&.url)
         redirect_to default_url
       else
-        redirect_to root_path, alert: 'Neither a smartlink with your browser language nor with default one for this slug is found'
+        redirect_to smartlinks_path, alert: 'Neither a smartlink with your browser language nor with default one for this slug is found'
       end
     else
-      redirect_to root_path, alert: 'There is no smartlink with this slug'
+      redirect_to smartlinks_path, alert: 'There is no smartlink with this slug'
     end
   end
 
   def index
+    redirect_to smartlinks_user_path(current_user) if logged_in?
+
     @smartlinks = Smartlink.all
   end
 
@@ -26,6 +28,9 @@ class SmartlinksController < ApplicationController
   end
 
   def create
+    return redirect_to new_smartlink_path, alert: 'Wrong language code.' if smartlink_params[:language_code].length != 2
+    return redirect_to new_smartlink_path, alert: 'Wrong URL.' if smartlink_params[:url].length.zero?
+
     @smartlink = current_user.smartlinks.new(slug: smartlink_params[:slug])
     language = Language.find_or_initialize_by(code: smartlink_params[:language_code])
 
@@ -50,7 +55,7 @@ class SmartlinksController < ApplicationController
   private
 
   def valid_slug
-    redirect_to root_path, alert: 'Invalid slug' unless params[:slug].match(VALID_SLUG)
+    redirect_to smartlinks_path, alert: 'Invalid slug' unless params[:slug].match(VALID_SLUG)
   end
 
   def smartlink_params
