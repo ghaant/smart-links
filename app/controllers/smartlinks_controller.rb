@@ -5,6 +5,7 @@ class SmartlinksController < ApplicationController
   def redirect
     if (smartlink = Smartlink.find_by(slug: params[:slug]))
       redirections = smartlink.redirections.joins(:language)
+
       if (url = redirections.find_by('languages.code = ?', request.accept_language[0..1])&.url)
         redirect_to url
       elsif (default_url = redirections.find_by("languages.default = 'true'")&.url)
@@ -18,7 +19,7 @@ class SmartlinksController < ApplicationController
   end
 
   def index
-    redirect_to smartlinks_user_path(current_user) if logged_in?
+    return redirect_to smartlinks_user_path(current_user) if logged_in?
 
     @smartlinks = Smartlink.all
   end
@@ -36,19 +37,16 @@ class SmartlinksController < ApplicationController
 
     @smartlink.redirections.new(smartlink: @smartlink, language: language, url: smartlink_params[:url])
 
-    respond_to do |format|
-      if @smartlink.save
-        format.html { redirect_to smartlinks_user_path(current_user), notice: 'Smartlink was successfully created.' }
-        format.json { render :index, status: :created, location: @smartlink }
-      else
-        format.html { render :new }
-        format.json { render json: @smartlink.errors, status: :unprocessable_entity }
-      end
+    if @smartlink.save
+      redirect_to smartlinks_user_path(current_user), notice: 'Smartlink was successfully created.'
+    else
+      render :new
     end
   end
 
   def destroy
     Smartlink.find(params[:id]).destroy
+
     redirect_to smartlinks_user_path, notice: 'Smartlink deleted'
   end
 
@@ -63,6 +61,6 @@ class SmartlinksController < ApplicationController
   end
 
   def logged_in
-    redirect_to login_path, alert: 'Please login first' unless logged_in?
+    redirect_to login_path, notice: 'Please login first' unless logged_in?
   end
 end
