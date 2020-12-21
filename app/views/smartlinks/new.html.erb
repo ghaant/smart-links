@@ -1,7 +1,7 @@
-<p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
 
 <%= form_with(model: @smartlink, local: true) do |form| %>
-  <% if @smartlink.errors.any? %>
+  <% if @smartlink&.errors&.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@smartlink.errors.count, "error") %> prohibited this smartlink from being saved:</h2>
 
@@ -26,3 +26,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+<br>
+<%= link_to 'Back', smartlinks_user_path(current_user) %>
