@@ -1,0 +1,10 @@
+<% smartlink.redirections.all.each do |redirection| %>
+  <tr>
+    <td><%= smartlink.slug %></td>
+    <td><%= redirection.language.code %></td>
+    <td><%= link_to redirection.url, redirection.url %></td>
+    <% if logged_in? %>
+      <td><%= link_to "Delete", smartlink_path(smartlink), method: :delete %></td>
+    <% end %>
+  </tr>
+<% end %>
