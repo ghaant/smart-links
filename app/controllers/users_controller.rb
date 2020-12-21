@@ -23,6 +23,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def smartlinks
+    @smartlinks = current_user.smartlinks if logged_in?
+  end
+
   private
 
   def set_user
