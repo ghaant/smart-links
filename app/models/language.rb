@@ -1,7 +1,7 @@
 class Language < ApplicationRecord
   before_save :set_default
 
-  validates :code, presence: true, length: { maximum: 2 }
+  validates :code, presence: true, length: { is: 2 }
 
   has_many :redirections, dependent: :destroy
 
