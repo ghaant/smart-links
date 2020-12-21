@@ -1,0 +1,30 @@
+<p id="alert"><%= alert %></p>
+
+<%= form_with(model: @smartlink, local: true) do |form| %>
+  <% if @smartlink&.errors&.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@smartlink.errors.count, "error") %> prohibited this smartlink from being saved:</h2>
+
+      <ul>
+        <% @smartlink.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :slug %>
+    <%= form.text_field :slug %>
+    <%= form.label :language_code %>
+    <%= form.text_field :language_code %>
+    <%= form.label :URL %>
+    <%= form.text_field :url %>
+  </div>
+  <br>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+<br>
+<%= link_to 'Back', smartlinks_user_path(current_user) %>
