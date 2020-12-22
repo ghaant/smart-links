@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Smartlinks", type: :request do
-  let!(:smartlink) { create :smartlink }
+  let!(:user) { create :user }
+  let!(:smartlink) { create :smartlink, user: user }
   let!(:en_language) { create :language, code: 'en' }
   let!(:de_language) { create :language, code: 'de' }
   let!(:ru_language) { create :language, code: 'ru' }
@@ -10,7 +11,6 @@ RSpec.describe "Smartlinks", type: :request do
 
   let!(:smartlink2) { create :smartlink }
 
-  let!(:user) { create :user }
   let!(:session_params) do
     {
       session: {
@@ -130,6 +130,32 @@ RSpec.describe "Smartlinks", type: :request do
     context 'the user is not loggeg in' do
       it 'redirects to the login page' do
         post '/smartlinks'
+
+        expect(response).to redirect_to(login_path)
+      end
+    end
+  end
+
+  describe 'DELETE /smartlinks/:id' do
+    subject { delete "/smartlinks/#{smartlink.id}" }
+
+    context 'the user is logged in' do
+      before { post login_path, params: session_params }
+
+      it 'deletes the smartlink' do
+        expect { subject }.to change(Smartlink, :count).by(-1)
+      end
+
+      it "redirects to user''s smartinks" do
+        subject
+
+        expect(response).to redirect_to(smartlinks_user_path(user))
+      end
+    end
+
+    context 'the user is not logged in' do
+      it 'redirects to the login page' do
+        subject
 
         expect(response).to redirect_to(login_path)
       end

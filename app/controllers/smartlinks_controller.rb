@@ -46,9 +46,11 @@ class SmartlinksController < ApplicationController
   end
 
   def destroy
-    Smartlink.find(params[:id]).destroy
-
-    redirect_to smartlinks_user_path, notice: 'Smartlink deleted'
+    if current_user.smartlinks.find(params[:id]).destroy
+      redirect_to smartlinks_user_path(current_user), notice: 'Smartlink deleted'
+    else
+      redirect_to smartlinks_user_path(current_user), alert: 'The user does not have a smartlink with such ID.'
+    end
   end
 
   private
