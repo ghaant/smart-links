@@ -70,7 +70,7 @@ RSpec.describe "Smartlinks", type: :request do
 
   describe 'GET /smartlinks' do
     context 'when the user is logged in' do
-      it "redirects to user''s smartinks" do
+      it "redirects to user's smartinks" do
         post login_path, params: session_params
         get '/smartlinks'
 
@@ -117,7 +117,7 @@ RSpec.describe "Smartlinks", type: :request do
           end.to change(Smartlink, :count).by(1)
         end
 
-        it "redirects to user''s smartinks" do
+        it "redirects to user's smartinks" do
           post '/smartlinks', params: { smartlink: { slug: 'blah', language_code: 'de', url: 'https://www.dw.com/' } }
 
           expect(response).to redirect_to(smartlinks_user_path(user))
@@ -144,7 +144,7 @@ RSpec.describe "Smartlinks", type: :request do
         expect { subject }.to change(Smartlink, :count).by(-1)
       end
 
-      it "redirects to user''s smartinks" do
+      it "redirects to user's smartinks" do
         subject
 
         expect(response).to redirect_to(smartlinks_user_path(user))
