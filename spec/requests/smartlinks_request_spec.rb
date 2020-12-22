@@ -32,8 +32,6 @@ RSpec.describe "Smartlinks", type: :request do
           end
         end
 
-
-
         context 'when a redirections for the browser language does not exists' do
           it 'redirects to the URL for the default language' do
             Rails.application.env_config['HTTP_ACCEPT_LANGUAGE'] = 'ru_qwerty'
