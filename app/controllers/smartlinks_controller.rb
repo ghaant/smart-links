@@ -29,8 +29,9 @@ class SmartlinksController < ApplicationController
   end
 
   def create
-    return redirect_to new_smartlink_path, alert: 'Wrong language code.' if smartlink_params[:language_code].length != 2
-    return redirect_to new_smartlink_path, alert: 'Wrong URL.' if smartlink_params[:url].length.zero?
+    return redirect_to new_smartlink_path, alert: 'A slug could not be blank.' if smartlink_params[:slug].length.zero?
+    return redirect_to new_smartlink_path, alert: 'Please enter a 2-symbol language code.' if smartlink_params[:language_code].length != 2
+    return redirect_to new_smartlink_path, alert: 'URL could not be blank.' if smartlink_params[:url].length.zero?
 
     @smartlink = current_user.smartlinks.new(slug: smartlink_params[:slug])
     language = Language.find_or_initialize_by(code: smartlink_params[:language_code])
@@ -45,9 +46,9 @@ class SmartlinksController < ApplicationController
   end
 
   def destroy
-    Smartlink.find(params[:id]).destroy
+    current_user.smartlinks.find(params[:id]).destroy
 
-    redirect_to smartlinks_user_path, notice: 'Smartlink deleted'
+    redirect_to smartlinks_user_path(current_user), notice: 'Smartlink deleted'
   end
 
   private
